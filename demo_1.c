@@ -110,7 +110,7 @@ struct node *createList(struct node *start){
 	for(i = 1; i < n; i++){
 		printf("Enter the data for node %d : ", &n);
 		scanf("%d", &data);
-		
+		insertAtEnd(start, &data);
 	}
 	
 	return start;
@@ -134,6 +134,15 @@ void displayList(struct node *start){
 }/* end displayList */
 
 struct node *insertInEmptyList(struct node *start, int data){
+	struct node *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->info = data;
+	
+	temp->prev = NULL;
+	temp->next = start;
+	
+	start->prev = temp;
+	start = temp;
 	
 	return start;
 }/* end insertInEmptyList */
