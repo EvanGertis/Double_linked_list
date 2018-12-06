@@ -1,5 +1,5 @@
-#include "stdio.h"
-#include "stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 struct node
 {
@@ -14,7 +14,7 @@ struct node *insertInEmptyList(struct node *start, int data);
 struct node *insertInBeginning(struct node *start, int data);
 void insertAtEnd(struct node *start, int data);
 void insertAfter(struct node *start, int data, int x);
-struct node *insertBefore(struct node *start, int data);
+struct node *insertBefore(struct node *start, int data, int x);
 struct node *deleteNode(struct node *start, int data);
 struct node *reverseList(struct node *start);
 
@@ -73,7 +73,7 @@ int main()
 				printf("Enter the node which you would like to insert data before : ");
 				scanf("%d", &x);
 				printf("Enter the element that you would like to be inserted : ");
-				start = insertBefore(start, data);
+				start = insertBefore(start, data, x);
 				break;
 			case 7:
 				printf("Enter the element of the node that you would like to delete : ");
@@ -98,19 +98,25 @@ struct node *createList(struct node *start){
 	temp = (struct node *)malloc(sizeof(struct node));
 	
 	printf("Enter the number of nodes : ");
-	scanf("%d", n);
+	scanf("%d", &n);
+	
+	start = NULL;
+	
+	if(n == 0){
+		return start;
+	}
 	
 	if(n == 1){
-		printf("Enter the data for node %d : ", &n);
+		printf("Enter the data for node %d : ", n);
 		scanf("%d", &data);
 		insertInEmptyList(start, data);
 		return start;
 	}
 	
 	for(i = 1; i < n; i++){
-		printf("Enter the data for node %d : ", &n);
+		printf("Enter the data for node %d : ", i);
 		scanf("%d", &data);
-		insertAtEnd(start, &data);
+		insertAtEnd(start, data);
 	}
 	
 	return start;
@@ -153,16 +159,87 @@ struct node *insertInBeginning(struct node *start, int data){
 }/* end insertInBeginning */
 
 void insertAtEnd(struct node *start, int data){
+	struct node *temp, *p; 
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->info = data;
+	
+	while(p != NULL){
+		p->next;
+	}
+	
+	temp->prev = p;
+	temp->next = p->next;
+	p->next->prev = temp;
+	p->next = temp;
 	
 }/* end insertAtEnd */
 
 void insertAfter(struct node *start, int data, int x){
+	struct node *temp, *p;
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->info = data;
+	
+	p = start;
+	while(p != NULL){
+		if(p->info == x){
+			break;
+		}
+		p = p-> next;
+	}
+	
+	if(p == NULL){
+		printf("%d not present in the list\n", x);
+	} else{
+		temp->prev = p;
+		temp->next = p->next;
+		if(p->next != NULL){
+			p->next->prev = temp;
+		}
+		p->next = temp;
+	}
 	
 }/* end insertAfter */
 
-struct node *insertBefore(struct node *start, int data){
+struct node *insertBefore(struct node *start, int data, int x){
+	struct node *temp, *p;
+	
+	if(start == NULL){
+		printf("List is empty\n");
+		return start;
+	}
+	
+	if(start->info == x){
+		temp = (struct node *)malloc(sizeof(struct node));
+		temp->info = data;
+		
+		temp->prev = NULL;
+		temp->next = start;
+		start->prev = temp;
+		start = temp;
+		return start;
+	}
+	
+	
+	p = start;
+	while(p != NULL){
+			if(p->info == x)
+				break;
+			p = p->next;
+	}
+		
+	if(p == NULL){
+		printf("%d not present in the list\n", x);
+	} else {
+		temp = (struct node *)malloc(sizeof(struct node));
+		temp->info = data;
+		
+		temp->prev = p->prev;
+		temp->next = p;
+	}
+	
 	
 	return start;
+	
 }/* end insertBefore */
 
 struct node *deleteNode(struct node *start, int data){
