@@ -46,45 +46,45 @@ int main()
 		
 		switch(choice){
 			case 1:
+				printf("choice was 1");
 				displayList(start);
 				break;
 			case 2: 
 				printf("Enter the element to be inserted : ");
 				scanf("%d", &data);
-				start = insertInEmptyList(start, data);
+				//start = insertInEmptyList(start, data);
 				break;
 			case 3:
 				printf("Enter the element to be inserted : ");
 				scanf("%d", &data);
-				start = insertInBeginning(start, data);
+				//start = insertInBeginning(start, data);
 				break;
 			case 4: 
 				printf("Enter the element to be inserted : ");
 				scanf("%d", &data);
-				insertAtEnd(start, data);
+				//insertAtEnd(start, data);
 				break;
 			case 5:
 				printf("Enter the node which you would like to insert data after : ");
 				scanf("%d", &x);
 				printf("Enter the element that you would like to be inserted : ");
-				insertAfter(start, data, x);
+				//insertAfter(start, data, x);
 				break;
 			case 6:
 				printf("Enter the node which you would like to insert data before : ");
 				scanf("%d", &x);
 				printf("Enter the element that you would like to be inserted : ");
-				start = insertBefore(start, data, x);
+				//start = insertBefore(start, data, x);
 				break;
 			case 7:
 				printf("Enter the element of the node that you would like to delete : ");
-				start = deleteNode(start, data);
+				//start = deleteNode(start, data);
 				break;
 			case 8: 
-				start = reverseList(start);
+				//start = reverseList(start);
 				break;
 			default:
 				printf("wrong choice");
-				break;
 		}/*end switch*/
 		
 	}/*end while*/
@@ -127,6 +127,7 @@ void displayList(struct node *start){
 	
 	p = start;
 	printf("List is :\n");
+	printf("about to while loop");
 	while(p != NULL){
 		printf("%d", p->info);
 		p = p->next;
@@ -240,6 +241,8 @@ struct node *insertBefore(struct node *start, int data, int x){
 		
 		temp->prev = p->prev;
 		temp->next = p;
+		p->prev->next = temp;
+		p->prev = temp;
 	}
 	
 	
