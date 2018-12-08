@@ -94,9 +94,6 @@ int main()
 
 struct node *createList(struct node *start){
 	int i, n, data;
-	struct node *temp;
-	temp = (struct node *)malloc(sizeof(struct node));
-	
 	printf("Enter the number of nodes : ");
 	scanf("%d", &n);
 	
@@ -106,14 +103,13 @@ struct node *createList(struct node *start){
 		return start;
 	}
 	
-	if(n == 1){
-		printf("Enter the data for node %d : ", n);
-		scanf("%d", &data);
-		insertInEmptyList(start, data);
-		return start;
-	}
+
+	printf("Enter the data for node the first node : ");
+	scanf("%d", &data);
+	start = insertInEmptyList(start, data);
 	
-	for(i = 1; i < n; i++){
+	
+	for(i = 2; i <= n; i++){
 		printf("Enter the data for node %d : ", i);
 		scanf("%d", &data);
 		insertAtEnd(start, data);
@@ -145,15 +141,22 @@ struct node *insertInEmptyList(struct node *start, int data){
 	temp->info = data;
 	
 	temp->prev = NULL;
-	temp->next = start;
-	
-	start->prev = temp;
+	temp->next = NULL;
+
 	start = temp;
 	
 	return start;
 }/* end insertInEmptyList */
 
 struct node *insertInBeginning(struct node *start, int data){
+	struct node *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->info = data;
+	
+	temp->prev = NULL;
+	temp->next = start;
+	start->prev = temp;
+	start = temp;
 	
 	return start;
 }/* end insertInBeginning */
@@ -162,15 +165,17 @@ void insertAtEnd(struct node *start, int data){
 	struct node *temp, *p; 
 	temp = (struct node *)malloc(sizeof(struct node));
 	temp->info = data;
-	
-	while(p != NULL){
-		p->next;
+
+	p = start;
+	while(p->next != NULL){
+		p = p->next;
 	}
 	
-	temp->prev = p;
-	temp->next = p->next;
-	p->next->prev = temp;
 	p->next = temp;
+	temp->next = NULL;
+	temp->prev = p;
+
+	
 	
 }/* end insertAtEnd */
 
