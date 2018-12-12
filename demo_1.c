@@ -47,7 +47,6 @@ int main()
 		switch(choice)
 		{
 		case 1:
-			printf("choice was 1");
 			displayList(start);
 			break;
 		case 2: 
@@ -81,6 +80,7 @@ int main()
 			break;
 		case 7:
 			printf("Enter the element of the node that you would like to delete : ");
+			scanf("%d", &data);
 			start = deleteNode(start, data);
 			break;
 		case 8: 
@@ -250,13 +250,78 @@ struct node *insertBefore(struct node *start, int data, int x){
 }/* end insertBefore */
 
 struct node *deleteNode(struct node *start, int data){
-	struct node *temp, *p;
+	struct node *temp;
 	temp =(struct node *)malloc(sizeof(struct node));
+	
+	if(start == NULL){
+		printf("the list is empty");
+		return start;
+	}
+	
+	if(start->next == NULL){
+		if(start->info == NULL){
+			temp = start->next;
+			start = NULL;
+			free(temp);
+			return start;			
+		} else {
+			printf("Element %d not found\n", data);
+			return start;
+		}
+	}
+	
+	if(start->info == data){
+		temp = start;
+		start = start->next;
+		start->prev = NULL;
+		free(temp);
+		return start;
+	}
+	
+	temp = start->next;
+	while(temp->next != NULL){
+		if(temp->info == data){
+			break;
+		}
+		temp = temp->next;
+	}
+	
+	if(temp->next != NULL){
+		temp->prev->next = temp->next;
+		temp->next->prev = temp->prev;
+		free(temp);
+		return start;
+	} else {
+		if(temp->info == data){
+			temp->prev->next = NULL;
+			free(temp);
+			return start;
+		}
+		else {
+			printf("Element %d not found\n", data);
+		}
+	}
 	
 	return start;
 }/* end deleteNode*/
 
 struct node *reverseList(struct node *start){
+	struct node *p1, *p2;
+	p1 = (struct node *)malloc(sizeof(struct node));
+	p2 = (struct node *)malloc(sizeof(struct node));
+	
+	p1 = start;
+	p2 = p1->next;
+	p1->next = NULL;
+	p1->prev = p2;
+	while(p2 != NULL){
+		p2->prev = p2->next;
+		p2->next = p1;
+		p1 = p2;
+		p2 = p2->prev;
+	}
+	
+	start = p1;
 	
 	return start;
 }/* end reverseList */
