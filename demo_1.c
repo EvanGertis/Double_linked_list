@@ -68,13 +68,15 @@ int main()
 		case 5:
 			printf("Enter the node which you would like to insert data after : ");
 			scanf("%d", &x);
-			printf("Enter the element that you would like to be inserted : ");
+			printf("Enter the data that you would like to be inserted : ");
+			scanf("%d", &data);
 			insertAfter(start, data, x);
 			break;
 		case 6:
 			printf("Enter the node which you would like to insert data before : ");
 			scanf("%d", &x);
 			printf("Enter the element that you would like to be inserted : ");
+			scanf("%d", &data);
 			start = insertBefore(start, data, x);
 			break;
 		case 7:
